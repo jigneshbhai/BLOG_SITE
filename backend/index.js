@@ -1,11 +1,20 @@
 import express from "express";
+import mongoose from "mongoose";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
-import path from "path";
-import connectDB from "./config/db.js";
 
+import dotenv from "dotenv";
 
-connectDB();
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO)
+  .then(() => {
+    console.log("MongoDb is connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const app = express();
 app.use(express.json());
