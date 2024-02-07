@@ -12,9 +12,8 @@ const Header = () => {
   console.log(theme);
   const { currentUser } = useSelector((state) => state.user);
   // console.log(currentUser);
-   
+
   return (
-    
     <Navbar className="border-b-2">
       <Link
         to="/"

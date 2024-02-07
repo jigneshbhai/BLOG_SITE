@@ -14,7 +14,7 @@ export const signup = async (req, res, next) => {
     email === "" ||
     password === ""
   ) {
-    next(errorHandler(400, "All fields are require"));
+    return next(errorHandler(400, "All fields are required"));
   }
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -27,7 +27,15 @@ export const signup = async (req, res, next) => {
 
   try {
     await newUser.save();
-    res.json("Signup Done");
+
+    // Generate token
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Send the token back in the response
+    res.cookie("access_token", token, { httpOnly: true });
+    res.json({ message: "Signup Done", token }); // Include token in the response
   } catch (error) {
     next(error);
   }
@@ -39,7 +47,7 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password || email === "" || password === "") {
-    next(errorHandler(400, "All fields are required"));
+    return next(errorHandler(400, "All fields are required"));
   }
 
   try {
@@ -53,16 +61,15 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(400, "Invalid password"));
     }
 
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    // Generate token
+    const token = jwt.sign({ userId: validUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
+    // Send the token back in the response
     const { password: pass, ...rest } = validUser._doc;
-
-    res
-      .status(200)
-      .cookie("access Token", token, {
-        httpOnly: true,
-      })
-      .json(rest);
+    res.cookie("access_token", token, { httpOnly: true });
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }

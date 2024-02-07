@@ -4,11 +4,12 @@ import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO,{
+  .connect(process.env.MONGO, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -22,19 +23,20 @@ mongoose
 const app = express();
 
 // Enable CORS for the signup route
-app.options("/api/auth/signup", (req, res) => {
-  res.sendStatus(204);
-});
+
 
 // Allow requests only from http://localhost:3000
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
 
 app.use(express.json());
+app.use(cookieParser());
 app.listen(5000, () => {
   console.log("Server Running on Port:5000");
 });

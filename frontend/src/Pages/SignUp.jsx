@@ -25,6 +25,7 @@ const SignUp = () => {
         body: JSON.stringify(formData),
         credentials: "include",
       });
+      console.log(res);
       const data = await res.json();
       if (data.success === false) {
         return setErrorMessage(data.message);
@@ -47,8 +48,7 @@ const SignUp = () => {
             Jignesh Blog
           </Link>
           <p className="text-sm mt-5">
-             You can sign up with your email and password
-            or with Google.
+            You can sign up with your email and password or with Google.
           </p>
         </div>
         {/* right */}
