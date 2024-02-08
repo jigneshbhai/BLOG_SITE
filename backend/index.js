@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+import postRoutes from "./routes/post.route.js";
+
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -24,7 +26,6 @@ const app = express();
 
 // Enable CORS for the signup route
 
-
 // Allow requests only from http://localhost:3000
 app.use(
   cors({
@@ -43,3 +44,4 @@ app.listen(5000, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoutes);
