@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import useSignout from "../hooks/useSignout";
+import useSignout from "../../hooks/useSignout";
 
 const DashSidebar = () => {
   const [tab, setTab] = useState(" ");
@@ -52,7 +52,7 @@ const DashSidebar = () => {
               Profile
             </Sidebar.Item>
           </Link>
-          {currentUser.isAdmin && (
+          {currentUser && (
             <Link to="/dashboard?tab=posts">
               <Sidebar.Item
                 active={tab === "posts"}

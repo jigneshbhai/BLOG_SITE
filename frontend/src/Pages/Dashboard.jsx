@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import DashSidebar from "../components/DashSidebar";
-import DashProfile from "../components/DashProfile";
+
 import { useLocation } from "react-router-dom";
-import DashPosts from "../components/DashPosts";
-import DashUser from "../components/DashUser";
-import DashComment from "../components/DashComment";
-import DashBoardCom from "../components/DashBoardCom";
+import DashProfile from "../components/DashComponents/DashProfile";
+import DashPosts from "../components/DashComponents/DashPosts";
+import DashComment from "../components/DashComponents/DashComment";
+import DashUsers from "../components/DashComponents/DashUser";
+import DashSidebar from "../components/DashComponents/DashSidebar";
+import DashBoardCom from "../components/DashComponents/DashBoardCom"
 
 const Dashboard = () => {
   const location = useLocation();
@@ -24,7 +25,7 @@ const Dashboard = () => {
       </div>
       {tab === "profile" && <DashProfile />}
       {tab === "posts" && <DashPosts />}
-      {tab === "users" && <DashUser />}
+      {tab === "users" && <DashUsers />}
       {tab === "comments" && <DashComment />}
       {tab === "dash" && <DashBoardCom />}
     </div>

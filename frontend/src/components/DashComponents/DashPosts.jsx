@@ -16,19 +16,31 @@ const DashPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts`);
-        const data = await res.json();
-        if (res.ok) {
-          setUserPosts(data.posts);
+        let url = "/api/post/getposts";
+        // If the current user is an admin, fetch all posts
+        if (currentUser.isAdmin) {
+          const res = await fetch(url);
+          const data = await res.json();
+          if (res.ok) {
+            setUserPosts(data.posts);
+          }
+        } else {
+          // If the current user is not an admin, fetch only the posts belonging to the current user
+          url = `/api/post/getposts?userId=${currentUser._id}`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (res.ok) {
+            setUserPosts(data.posts);
+          }
         }
       } catch (error) {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
+    if (currentUser._id) {
       fetchPosts();
     }
-  }, [currentUser._id]);
+  }, [currentUser._id, currentUser.isAdmin]);
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
@@ -71,7 +83,7 @@ const DashPosts = () => {
   };
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser && userPosts.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>

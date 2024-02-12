@@ -5,7 +5,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { app } from "../firebase";
+import { app } from "../../firebase";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgressbar } from "react-circular-progressbar";
@@ -18,9 +18,9 @@ import {
   updateFailure,
   updateStart,
   updateSuccess,
-} from "../redux/user/userSlice";
+} from "../../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import useSignout from "../hooks/useSignout";
+import useSignout from "../../hooks/useSignout";
 import { Link } from "react-router-dom";
 
 const DashProfile = () => {
@@ -224,7 +224,7 @@ const DashProfile = () => {
         >
           {loading ? "Loading..." : "Update"}
         </Button>
-        {currentUser.isAdmin && (
+        {currentUser && (
           <Link to={"/create-post"}>
             <Button
               type="button"

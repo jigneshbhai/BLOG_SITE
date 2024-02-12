@@ -3,9 +3,9 @@ import { errorHandler } from "../utils/error.js";
 
 export const create = async (req, res, next) => {
   console.log(req.body);
-  if (!req.user.isAdmin) {
-    return next(errorHandler(403, "You are not allowed to create a post"));
-  }
+  // if (!req.user.isAdmin) {
+  //   return next(errorHandler(403, "You are not allowed to create a post"));
+  // }
 
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, "Please provide all required fields"));
@@ -77,7 +77,7 @@ export const getposts = async (req, res, next) => {
 };
 
 export const deletePost = async (req, res, next) => {
-  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+  if (req.user.id !== req.params.userId) {
     return next(errorHandler(403, "You are not allowed to delete this post"));
   }
   try {
@@ -92,7 +92,7 @@ export const updatePost = async (req, res, next) => {
   // console.log("postId:", req.params); // Log the postId
   // console.log("req.user:", req.user); // Log the user information
 
-  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+  if (req.user.id !== req.params.userId) {
     return next(errorHandler(403, "You are not allowed to update this post"));
   }
   try {
@@ -113,4 +113,3 @@ export const updatePost = async (req, res, next) => {
     next(error);
   }
 };
-
