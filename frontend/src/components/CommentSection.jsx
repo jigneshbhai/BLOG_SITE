@@ -59,8 +59,8 @@ const CommentSection = ({ postId }) => {
     getComments();
   }, [postId]);
 
-  console.log(comment);
-  console.log(comments);
+  // console.log(comment);
+  // console.log(comments);
 
   const handleLike = async (commentId) => {
     try {
